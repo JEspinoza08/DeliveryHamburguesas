@@ -1,0 +1,46 @@
+﻿@using Entity.LogOn;
+@{
+    Usuario eUsuario = ((Usuario)Session["Session_Login"]);
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Menú</title>
+    <link href="~/Content/css/principal.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <nav class="nav_gral">
+            <div class="logo">
+                <img src="~/Img/cerdito.png" alt="">
+            </div>
+            <ul class="nav_links">
+                <li style="font-size:20px !important;color:#CD6E2E;font-weight:bold; font-family: 'Poppins', sans-serif;">@eUsuario.NOMBRES</li>
+                <li><a href="~/Principal/Principal">Inicio</a></li>
+                <li><a href="~/Principal/Promociones">Promociones</a></li>
+                <li><a href="~/Principal/Nosotros">Mis Órdenes</a></li>
+                @if (ViewBag.perfil == 2)
+                {
+                <li><a href="~/Principal/OrdenesGlobales">Órdenes globales</a></li>
+                }
+                <li><a href="~/Principal/Perfil">Mi Perfil</a></li>
+                <li><a href="~/LogOn/CerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>
+
+<script src="~/Scripts/js/app.js"></script>

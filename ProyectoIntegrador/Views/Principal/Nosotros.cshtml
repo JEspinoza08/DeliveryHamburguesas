@@ -1,0 +1,253 @@
+﻿@using Entity.LogOn;
+@{
+    Usuario eUsuario = ((Usuario)Session["Session_Login"]);
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Mis Órdenes</title>
+    <script src="~/Scripts/jquery-1.11.3.js"></script>
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/sweetalert.min.js")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    <script src="~/Scripts/jquery.fileDownload.js"></script>
+    <link href="~/Content/bootstrap-table.min.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap-table.min.js"></script>
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.upload.1.0.2.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <link href="~/Content/css/principal.css" rel="stylesheet" />
+    <script src="~/Scripts/js/Ordenes.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <style>
+        .btn_filtrar_ {
+            background-color: #FCD4B5;
+            width: 150px;
+            height: 34px;
+            border: 1px solid #ccc;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            transition: 300ms all;
+        }
+
+            .btn_filtrar_:hover {
+                background-color: #CD5A30;
+                color: white;
+            }
+        .btn_realizarcompra {
+            background-color: #A8E1B9;
+            width: 150px;
+            height: 34px;
+            border: 1px solid #ccc;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            transition: 300ms all;
+        }
+
+            .btn_realizarcompra:hover {
+                background-color: #A8FFC1;
+                color: black;
+            }
+    </style>
+    <div>
+        <nav class="nav_gral">
+            <div class="logo">
+                <img src="~/Img/cerdito.png" alt="">
+            </div>
+            <input type="hidden" name="name" value="@ViewBag.id_usuario" id="id_usuario" />
+            <input type="hidden" name="name" value="@ViewBag.perfil" id="id_perfil" />
+            <ul class="nav_links">
+                <li style="font-size:20px !important;color:#CD6E2E;font-weight:bold; font-family: 'Poppins', sans-serif;">@eUsuario.NOMBRES</li>
+                <li><a href="~/Principal/Principal">Inicio</a></li>
+                <li><a href="~/Principal/Promociones">Promociones</a></li>
+                <li><a href="~/Principal/Nosotros">Mis Órdenes</a></li>
+                @if (ViewBag.perfil == 2)
+                {
+                    <li><a href="~/Principal/OrdenesGlobales">Órdenes globales</a></li>
+                }
+                <li><a href="~/Principal/Perfil">Mi Perfil</a></li>
+                <li><a href="~/LogOn/CerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <select style="width:200px;text-align-last:center !important;" id="_estado_orden_filtro" class="form-control" name="_estado_orden_filtro"></select>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <input class="btn_filtrar_" type="submit" name="btn_listar" value="Filtrar" onclick="fnListarOrdenes();" />
+    </div>
+     <div id="btnCompraDiv" class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        
+    </div>
+    <div class="container-fluid">
+        <div id="dv_Ordenes" class="col-md-12">
+            <div class="panel panel-sky" style="margin-top: 40px; border-color: #dadfe3;">
+                <div class="panel-body" style="border-radius: 10px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<div class="modal fade" id="myModalDetallesPedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Detalles del Pedido </h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID</label>
+                    <input class="form-control" type="text" name="name" id="id_orden_detalle" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">TOKEN</label>
+                    <input class="form-control" type="text" name="name" id="token_orden_detalle" disabled />
+                    <p style="text-align:center;">Con este token puedes darle seguimiento a tu pedido.</p>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID PRODUCTO</label>
+                    <input class="form-control" type="text" name="name" id="idprod_orden_detalle" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">PRODUCTO</label>
+                    <input class="form-control" type="text" name="name" id="nombreprod_orden_detalle" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">FECHA</label>
+                    <input class="form-control" type="text" name="name" id="fecha_orden_detalle" disabled />
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">PRECIO DE LA ORDEN</label>
+                    <input class="form-control" type="number" name="name" id="precio_orden_detalle" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">CREMAS</label>
+                    <input type="text" class="form-control" name="name" id="comentario_orden_detalle" disabled />
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalEliminarPedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Cancelar Pedido </h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID</label>
+                    <input class="form-control" type="text" name="name" id="id_orden_eliminar" disabled />
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">CANTIDAD</label>
+                    <input class="form-control" type="text" name="name" id="cantidad_orden_eliminar" disabled />
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID PRODUCTO</label>
+                    <input class="form-control" type="text" name="name" id="idprod_orden_eliminar" disabled />
+                </div>
+                <h3 style="text-align:center;">¿Desea eliminar este pedido?</h3>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="fnCancelarPedido();">Cancelar Pedido</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalLimpiarHistorial" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Limpiar Historial</h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID</label>
+                    <input class="form-control" type="text" name="name" id="id_orden_limpiar" disabled />
+                </div>
+                <h3 style="text-align:center;">¿Desea eliminar este pedido de su historial?</h3>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="fnLimpiarHistorial();">Limpiar Historial</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalCambiarEstado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Cambiar Estado</h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID</label>
+                    <input class="form-control" type="text" name="name" id="id_orden_cambiar_estado" disabled />
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">Estado de la Orden</label>
+                    <select id="_estado_orden_change" class="form-control" name="estado_orden"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">ESTADO ACTUAL</label>
+                    <input class="form-control" type="text" name="name" id="nombre_estado_actual" disabled />
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <input type="button" class="btn btn-success" data-dismiss="modal" value="Cambiar Estado" id="btnCambiarEstado_" onclick="fnCambiarEstado();">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalCompra" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Proceso de Compra</h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group" id="sitiosdeinform">
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <input type="button" class="btn btn-success" data-dismiss="modal" value="Realizar Pago" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="_load_action" class="modal" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="false">
+    <div class="text-center" style="color: #fff; width: 65px; height: 50px; position: absolute; top: 50%; left: 50%; margin-top: -32.5px; margin-left: -25px;">
+        <img src="~/Img/cerdito.png" style="margin-left: -17px;width:100px;height:100px;" />
+        <br />
+        <small>Cargando</small>
+    </div>
+</div>
+<script src="~/Scripts/js/app.js"></script>

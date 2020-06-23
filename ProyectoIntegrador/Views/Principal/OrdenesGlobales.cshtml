@@ -1,0 +1,113 @@
+﻿@using Entity.LogOn;
+@{
+    Usuario eUsuario = ((Usuario)Session["Session_Login"]);
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Menú</title>
+
+    <script src="~/Scripts/jquery-1.11.3.js"></script>
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/sweetalert.min.js")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    <script src="~/Scripts/jquery.fileDownload.js"></script>
+    <link href="~/Content/bootstrap-table.min.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap-table.min.js"></script>
+    <link href="~/Content/css/principal.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <script src="~/Scripts/js/ordenesglobales.js"></script>
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.upload.1.0.2.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+</head>
+<body>
+    <style>
+        .btn_filtrar_ {
+            background-color: #FCD4B5;
+            width: 150px;
+            height: 34px;
+            border: 1px solid #ccc;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            transition: 300ms all;
+        }
+
+            .btn_filtrar_:hover {
+                background-color: #CD5A30;
+                color: white;
+            }
+
+        .btn_realizarcompra {
+            background-color: #A8E1B9;
+            width: 150px;
+            height: 34px;
+            border: 1px solid #ccc;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            transition: 300ms all;
+        }
+
+            .btn_realizarcompra:hover {
+                background-color: #A8FFC1;
+                color: black;
+            }
+    </style>
+    <div>
+        <nav class="nav_gral">
+            <div class="logo">
+                <img src="~/Img/cerdito.png" alt="">
+            </div>
+            <ul class="nav_links">
+                <li style="font-size:20px !important;color:#CD6E2E;font-weight:bold; font-family: 'Poppins', sans-serif;">@eUsuario.NOMBRES</li>
+                <li><a href="~/Principal/Principal">Inicio</a></li>
+                <li><a href="~/Principal/Promociones">Promociones</a></li>
+                <li><a href="~/Principal/Nosotros">Mis Órdenes</a></li>
+                @if (ViewBag.perfil == 2)
+                {
+                    <li><a href="~/Principal/OrdenesGlobales">Órdenes globales</a></li>
+                }
+                <li><a href="~/Principal/Perfil">Mi Perfil</a></li>
+                <li><a href="~/LogOn/CerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <select style="width:200px;text-align-last:center !important;" id="_estado_orden_filtro_global" class="form-control" name="_estado_orden_filtro"></select>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <select style="width:200px;text-align-last:center !important;" id="_usuarios_filtro_global" class="form-control" name="_usuarios_filtro_global"></select>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <input class="btn_filtrar_" type="submit" name="btn_listar" value="Filtrar" onclick="fnListarOrdenes()" />
+    </div>
+    <div class="container-fluid">
+        <div id="dv_OrdenesGlobales" class="col-md-12">
+            <div class="panel panel-sky" style="margin-top: 40px; border-color: #dadfe3;">
+                <div class="panel-body" style="border-radius: 10px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<div id="_load_action" class="modal" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="false">
+    <div class="text-center" style="color: #fff; width: 65px; height: 50px; position: absolute; top: 50%; left: 50%; margin-top: -32.5px; margin-left: -25px;">
+        <img src="~/Img/cerdito.png" style="margin-left: -17px;width:100px;height:100px;" />
+        <br />
+        <small>Cargando</small>
+    </div>
+</div>
+<script src="~/Scripts/js/app.js"></script>

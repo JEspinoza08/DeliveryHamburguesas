@@ -1,0 +1,73 @@
+﻿@using Entity.LogOn;
+@model Usuario
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es-pe">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    @Scripts.Render("~/Scripts/jquery-3.3.1.js")
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/sweetalert.min.js")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    <link rel="stylesheet" href="~/Content/css/master.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+         let msgError = ' @Html.Raw(TempData["msgError"])';
+            if (msgError != ' ') {
+            swal({
+                title: "Error!",
+                text: `${msgError}`,
+                icon: "warning",
+                button: "Aceptar",
+                dangerMode: true
+            })
+        }
+        $(document).ready(function () {
+            $('#btn_registrate').click(() => {
+                window.location.href = "/LogOn/Registrate";
+            })
+        })
+        function check(e) {
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla == 8) {
+                return true;
+            }
+
+            patron = /[0-9]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
+        }
+    </script>
+    <div class="login-box">
+        <img class="avatar" src="~/Img/logo.png" alt="">
+        <h1>¡Bienvenido!</h1>
+        @using (Html.BeginForm("Login", "LogOn", FormMethod.Post, new { @role = "form", @class = "form-horizontal", @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <label for="usuario">Usuario</label>
+            <input type="text" name="DNI" placeholder="Ingrese DNI" onkeypress="return check(event)" maxlength="9">
+
+            <label for="contraseña">Contraseña</label>
+            <input type="password" name="CONTRASEÑA" placeholder="Ingrese contraseña" autocomplete="new-password" maxlength="25">
+
+            <input class="ingresar_btn" type="submit" name="ingresar" value="Inicia Sesión">
+
+        }
+        <input class="registrar_btn" type="button" id="btn_registrate" name="registrar" value="Regístrate">
+        <a href="#">¿Olvidaste tu contraseña?</a>
+    </div>
+
+</body>
+
+</html>

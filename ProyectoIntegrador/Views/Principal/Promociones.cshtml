@@ -1,0 +1,200 @@
+﻿@using Entity.LogOn;
+@{
+    Usuario eUsuario = ((Usuario)Session["Session_Login"]);
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Promociones</title>
+
+    <script src="~/Scripts/jquery-1.11.3.js"></script>
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/sweetalert.min.js")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    <script src="~/Scripts/jquery.fileDownload.js"></script>
+    <link href="~/Content/bootstrap-table.min.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap-table.min.js"></script>
+    <link href="~/Content/css/principal.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/js/promociones.js"></script>
+    <script src="~/Scripts/jquery.upload.1.0.2.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+
+
+</head>
+<body>
+    <style>
+        .btn_filtrar_ {
+            background-color: #FCD4B5;
+            width: 150px;
+            height: 34px;
+            border: 1px solid #ccc;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            transition: 300ms all;
+        }
+
+            .btn_filtrar_:hover {
+                background-color: #CD5A30;
+                color: white;
+            }
+    </style>
+    <div>
+        <nav class="nav_gral">
+            <div class="logo">
+                <img src="~/Img/cerdito.png" alt="">
+            </div>
+            <input type="hidden" name="ID" value="@eUsuario.ID" id="id_usuario" />
+            <input type="hidden" name="PERFIL" value="@ViewBag.perfil" id="perfil" />
+            <ul class="nav_links">
+                <li style="font-size:20px !important;color:#CD6E2E;font-weight:bold; font-family: 'Poppins', sans-serif;">@eUsuario.NOMBRES</li>
+                <li><a href="~/Principal/Principal">Inicio</a></li>
+                <li><a href="~/Principal/Promociones">Promociones</a></li>
+                <li><a href="~/Principal/Nosotros">Mis Órdenes</a></li>
+                @if (ViewBag.perfil == 2)
+                {
+                <li><a href="~/Principal/OrdenesGlobales">Órdenes globales</a></li>
+                }
+                <li><a href="~/Principal/Perfil">Mi Perfil</a></li>
+                <li><a href="~/LogOn/CerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </div>
+    @if (ViewBag.perfil == 2)
+    {
+        <div>
+            <input style="margin-top:50px;margin-left:30px;" class="btn btn-success" type="button" name="agregarProducto" value="Agregar Producto" onclick="cargaArchivo();" />
+        </div>
+    }
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <select style="width:200px;text-align-last:center !important;" id="_papas_filtro" class="form-control" name="papas_filtro"></select>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <select style="width:230px;text-align-last:center !important;" id="_bebidas_filtro" class="form-control" name="bebidas_filtro" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'></select>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <input class="form-control" style="width:300px;" type="text" name="buscar" id="nombre_promocion" placeholder="Buscar promoción"/>
+    </div>
+    <div class="form-group" style="display:inline-block;margin-left:30px;font-family: 'Poppins', sans-serif;font-weight:bold;margin-top:40px;text-align:center;">
+        <input class="btn_filtrar_" type="submit" name="btn_listar" value="Filtrar"  onclick="fnListarPromociones();" />
+    </div>
+    <div class="container-fluid">
+        <div id="dv_Promociones" class="col-md-12">
+            <div class="panel panel-sky" style="margin-top: 20px; border-color: #dadfe3;">
+                <div class="panel-body" style="border-radius: 10px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/js/app.js"></script>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Registrar Promoción </h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre Promoción</label>
+                    <input type="text" class="form-control" id="_nombPromo" placeholder="Nombre de la Promoción" required>
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">Precio</label>
+                    <input type="text" id="_precio" class="form-control" placeholder="Ingrese Precio"  onkeypress="return check(event)" />
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">Cantidad</label>
+                    <input type="text" id="_cantidad" class="form-control" placeholder="Ingrese Cantidad" onkeypress="return check(event)" />
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">Bebidas</label>
+                    <select id="_bebidas" class="form-control" name="bebidas"></select>
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">Papas</label>
+                    <select id="_papas" class="form-control" name="papas"></select>
+                </div>
+                <div class="form-group">
+                    <label for="cargarArchivo">Imagen</label>
+                    <input id="archivo" type="file" class="form-control form-control-file" aria-describedby="fileHelp" name="__archivo" accept=".jpg,.jpeg,.png">
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="cargar" onclick="cargar();">Cargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalRealizarPedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align:center;font-weight:bold;font-family: 'Poppins', sans-serif;">Realizar Pedido </h4>
+            </div>
+            <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">ID</label>
+                    <input class="form-control" type="text" name="name" id="id_promocion" disabled />
+                </div>
+                <div class="form-group" id="img_realizarp"></div>
+                <div class="form-group">
+                    <label class="control-label">Nombre</label>
+                    <input class="form-control" type="text" name="name" id="nombre_realizarp" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Bebida</label>
+                    <input class="form-control" type="text" name="name" id="bnombre_realizarp" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Papas</label>
+                    <input class="form-control" type="text" name="name" id="pnombre_realizarp" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Stock</label>
+                    <input class="form-control" type="number" name="name" id="cantidad_actual" disabled />
+                </div>
+                <div class="form-group">
+                    <label id="labelAnio" class="control-label" for="_anio">Cantidad</label>
+                    <select id="_cantidad_realizarp" class="form-control" name="cantidad" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Precio</label>
+                    <input type="text" class="form-control" name="name" id="precio_realizarp" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Cremas</label>
+                    <input class="form-control" type="text" name="name" id="cremas_comentario" placeholder="Especifique las cremas deseadas" maxlength="60"/>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center;font-weight:bold;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" id="idrealizarPedido" onclick="fnInsertarOrden();">Realizar Pedido</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="_load_action" class="modal" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="false">
+    <div class="text-center" style="color: #fff; width: 65px; height: 50px; position: absolute; top: 50%; left: 50%; margin-top: -32.5px; margin-left: -25px;">
+        <img src="~/Img/cerdito.png" style="margin-left: -17px;width:100px;height:100px;" />
+        <br />
+        <small>Cargando</small>
+    </div>
+</div>

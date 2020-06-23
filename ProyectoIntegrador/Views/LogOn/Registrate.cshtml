@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registrate</title>
+    @Scripts.Render("~/Scripts/jquery-3.3.1.js")
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/sweetalert.min.js")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    <link rel="stylesheet" href="~/Content/css/master.css">
+    <script src="~/Scripts/js/registrate.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="registrar-box">
+
+        <label style="text-align:center;font-size:24px;margin-top:-20px;">Registro de Usuario</label>
+        <label>Nombres</label>
+        <input type="text" name="nombres" id="nombres_reg" placeholder="Ingrese nombres completos" />
+        <label>Email</label>
+        <input type="text" name="email" id="email_reg" placeholder="Ingrese email (No obligatorio)" />
+        <label>Número de celular</label>
+        <input type="text" name="celular" id="celular_reg" placeholder="Ingrese número de celular" onkeypress="return check(event)" maxlength="12" />
+        <label>Dirección</label>
+        <input type="text" name="direccion" id="direccion_reg" placeholder="Ingrese dirección" />
+        <label>DNI</label>
+        <input type="text" name="dni" id="dni_reg" placeholder="Ingrese DNI" onkeypress="return check(event)" maxlength="9" />
+        <label>Contraseña</label>
+        <input type="password" name="contraseña" id="contraseña_reg" placeholder="Ingrese contraseña" autocomplete="new-password" maxlength="25" /><button class="btn btn-warning" type="button" onclick="mostrarContrasenaRegistro()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        <label>Repita Contraseña</label>
+        <input type="password" name="contraseña" id="rep_contraseña_reg" placeholder="Ingrese contraseña" autocomplete="new-password" maxlength="25" /><button class="btn btn-warning" type="button" onclick="mostrarContrasenaRegistro2()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        <input class="registrar_btn" type="submit" value="Registrar" onclick="fn_registro_usuario();" />
+        <input class="volver_btn" type="button" id="btn_volver_registro" value="Volver" />
+
+    </div>
+</body>
+</html>
+<div id="_load_action" class="modal" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="false">
+    <div class="text-center" style="color: #fff; width: 65px; height: 50px; position: absolute; top: 50%; left: 50%; margin-top: -32.5px; margin-left: -25px;">
+        <img src="~/Img/cerdito.png" style="margin-left: -17px;width:100px;height:100px;" />
+        <br />
+        <small>Cargando</small>
+    </div>
+</div>
