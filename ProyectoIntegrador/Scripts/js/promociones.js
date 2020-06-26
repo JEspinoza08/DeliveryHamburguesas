@@ -307,7 +307,7 @@ function fnListarPromociones() {
                     }
 
                     html += '<div class="col-md-3 img-thumbnail" style="width:532px; height:380px;margin-top:10px;margin-right:60px;margin-bottom:15px;font-family: Poppins, sans-serif;">';
-                    html += '       <div target="_blank" style="width:224.750px;"><img style="height:190px; width:500px;" src="http://localhost:64289/Temp/CargaImg/' + v.IMAGEN + '"></img></div>';
+                html += '       <div target="_blank" style="width:224.750px;"><img class="img_img_img_" style="height:190px; width:500px;" src="/Img/' + v.IMAGEN + '"></img></div>';
                     html += '<p style="font-size:20px;margin-top:10px;display:inline-block;">' + _titulo + '</p>';
                     html += '<p style="font-size:14px;">Bebida: ' + v.BNOMBRE + '</p>';
                     html += '<p style="font-size:14px;">Papas: ' + v.PNOMBRE + '</p>';
@@ -354,7 +354,7 @@ function rellenarDatos(a, b, c, d, e,f,g) {
     params.push(c);
     params.push(d);
     params.push(e);
-    $('#img_realizarp').append('<div target="_blank" style="width:224.750px;"><img style="height:190px; width:567px;" src="http://localhost:64289/Temp/CargaImg/' + b + '"></img></div>');
+    $('#img_realizarp').append('<div target="_blank" style="width:224.750px;"><img style="height:190px; width:567px;" src="/Img/' + b + '"></img></div>');
     //console.log(params.join('|'));
 }
 function fn_eliminar_promocion(id_archivo2) {

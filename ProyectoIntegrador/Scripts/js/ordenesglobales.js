@@ -131,7 +131,7 @@ function fnListarOrdenes() {
                 $('#btnCompraDiv').append('<input class="btn_realizarcompra" type="submit" name="btn_listar" value="Realizar Compra" id="btn_realizarcompramodal" onclick="fnRealizarPago()"/>');
 
                 html += '<div class="col-md-3 img-thumbnail" style="width:532px; height:380px;margin-top:10px;margin-right:60px;margin-bottom:15px;font-family: Poppins, sans-serif;">';
-                html += '       <div target="_blank" style="width:224.750px;"><img style="height:190px; width:500px;" src="http://localhost:64289/Temp/CargaImg/' + v.IMAGENPROD + '"></img></div>';
+                html += '       <div target="_blank" style="width:224.750px;"><img class="img_img_img_" style="height:190px; width:500px;" src="/Img/' + v.IMAGENPROD + '"></img></div>';
 
                 html += `<input type="text" style="display:none;" id="precio_orden-${i}" value='${v.PRECIO}' disabled/>`;
                 html += `<input type="text" style="display:none;" id="cantidad_orden-${i}" value='${v.CANTIDAD}' disabled/>`;

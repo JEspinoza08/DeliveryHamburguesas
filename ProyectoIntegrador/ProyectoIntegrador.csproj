@@ -145,10 +145,13 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Img\cerdito.png" />
+    <Content Include="Img\cerditoentero.jpg" />
     <Content Include="Img\cerditoentero.png" />
+    <Content Include="Img\fondo-nada.jpg" />
     <Content Include="Img\fondo.jpg" />
     <Content Include="Img\img_slider1.jpg" />
     <Content Include="Img\img_slider2.jpg" />
+    <Content Include="Img\img_slider3.jpg" />
     <Content Include="Img\logo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -185,6 +188,7 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
+    <None Include="Properties\PublishProfiles\deliveryhamburguesa - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

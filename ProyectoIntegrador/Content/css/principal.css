@@ -199,20 +199,47 @@
         transition: all 0.3s ease;
     }
 
-@media screen and (max-width:761px) {
+@media screen and (max-width:1932px) {
     .nav_links {
         width: 70%;
     }
 
+    .inicio_productos{
+        height:230px;
+        top:40%;
+        margin-left:85px;
+    }
+    .paginator{
+        top:220%;
+        right:30px;
+    }
+    .izquierda, .derecha{
+        top:145px;
+    }
         .nav_links li a {
-            font-size: 17px;
+            font-size: 16px;
         }
+    .registrar-box{
+        width:800px;
+        height:550px;
+        top:58%;
+        font-size:16px;
+    }
+    .img_perfil{
+        display:none;
+    }
+    .label_mi_perfil_{
+        display:none !important;
+    }
 }
 
 @media screen and (max-width:653px) {
     .logo img {
         width: 90px;
         height: 90px;
+    }
+    .img_img_img_{
+        width:250px !important;
     }
 }
 

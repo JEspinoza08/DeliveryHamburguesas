@@ -225,6 +225,16 @@ body {
     }
 }
 
+@media screen and (max-height:1100px) {
+    .registrar-box {
+        width: 330px;
+        height: 600px;
+        top: 51%;
+        padding: 40px 30px;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+}
 .nav_gral {
     display: flex;
     justify-content: space-around;
@@ -272,12 +282,12 @@ body {
     transition: all 0.3s ease;
 }
 
-@media screen and (max-width:761px) {
+@media screen and (max-width:950px) {
     .nav_links {
         width: 70%;
     }
     .nav_links li a {
-        font-size: 17px;
+        font-size: 12px;
     }
 }
 

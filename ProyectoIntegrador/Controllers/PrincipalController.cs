@@ -14,7 +14,7 @@ namespace ProyectoIntegrador.Controllers
 {
     public class PrincipalController : Controller
     {
-        string LocalImagen = Convert.ToString(ConfigurationManager.AppSettings["LocalCargaImg"]);
+        string LocalImagen = System.Web.Hosting.HostingEnvironment.MapPath("~/Img");
         B_LogOn _LogOn = new B_LogOn();
         B_HG _hg = new B_HG();
         // GET: Principal

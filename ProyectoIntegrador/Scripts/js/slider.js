@@ -95,7 +95,7 @@ function fnListarPromociones() {
                 }
 
                 html += '<div class="col-md-3 img-thumbnail" style="width:532px; height:380px;margin-top:10px;margin-right:60px;margin-bottom:15px;font-family: Poppins, sans-serif;">';
-                html += '       <div target="_blank" style="width:224.750px;"><img style="height:190px; width:500px;" src="http://localhost:64289/Temp/CargaImg/' + v.IMAGEN + '"></img></div>';
+                html += '       <div target="_blank" style="width:224.750px;"><img class="img_img_img_" style="height:190px; width:500px;" src="/Img/' + v.IMAGEN + '"></img></div>';
                 html += '<p style="font-size:20px;color:black;margin-top:10px;display:inline-block;">' + _titulo + '</p>';
                 html += '<p style="font-size:14px;color:black;">Bebida: ' + v.BNOMBRE + '</p>';
                 html += '<p style="font-size:14px;color:black;">Papas: ' + v.PNOMBRE + '</p>';
